@@ -102,7 +102,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <span className="text-xs sm:text-sm font-semibold text-white block">
-                      Jitender Sandhu
+                      Jitender Singh Sandhu
                     </span>
                     <span className="text-[10px] sm:text-[11px] text-[#7E96B8] uppercase tracking-wider block">
                       United Club
