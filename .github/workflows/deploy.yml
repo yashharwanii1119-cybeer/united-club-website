@@ -1,20 +1,17 @@
 name: Deploy United Club to GitHub Pages
 
 on:
-  # Trigger the workflow on pushes to the main branch
   push:
     branches: [ main, master ]
-
-  # Allows manual triggering from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Permissions required for GitHub Pages deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# Prevent concurrent deployments
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -39,9 +36,6 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
