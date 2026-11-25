@@ -28,8 +28,12 @@ const lerp = (a, b, t) => a + (b - a) * t;
 
 const InteractiveBackground = () => {
   const canvasRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [repStatus, setRepStatus] = useState('READY AT PLATFORM');
+  const statusRef = useRef(null);
+  const pctRef = useRef(null);
+  const currentProgressRef = useRef(0);
+  const targetProgressRef = useRef(0);
+  const animFrameIdRef = useRef(null);
+  const isRunningRef = useRef(false);
 
   const drawPaperScene = useCallback((progress) => {
     const canvas = canvasRef.current;
@@ -1179,18 +1183,23 @@ const InteractiveBackground = () => {
       }
     }
 
-    // Status display update
+    // Status display update via direct DOM refs (prevents full-component re-renders during scroll)
     const percentPress = Math.round(extension * 100);
-    if (extension < 0.20) {
-      setRepStatus('START POSITION // KNEES BENT');
-    } else if (extension < 0.80) {
-      setRepStatus(`DRIVING PLATFORM // ${percentPress}% EXTENSION`);
-    } else {
-      setRepStatus('FULL QUAD LOCKOUT // MAXIMUM DRIVE');
+    if (statusRef.current) {
+      if (extension < 0.20) {
+        statusRef.current.textContent = 'START POSITION // KNEES BENT';
+      } else if (extension < 0.80) {
+        statusRef.current.textContent = `DRIVING PLATFORM // ${percentPress}% EXTENSION`;
+      } else {
+        statusRef.current.textContent = 'FULL QUAD LOCKOUT // MAXIMUM DRIVE';
+      }
+    }
+    if (pctRef.current) {
+      pctRef.current.textContent = `[${Math.round(p * 100)}%]`;
     }
   }, []);
 
-  // Window resize handler with DPR scaling
+  // Window resize handler with DPR scaling (capped at 2 for performance)
   useEffect(() => {
     const handleResize = () => {
       const canvas = canvasRef.current;
@@ -1198,13 +1207,15 @@ const InteractiveBackground = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const w = window.innerWidth;
       const h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
 
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const curProg = docHeight > 0 ? window.scrollY / docHeight : 0;
+      const curProg = docHeight > 0 ? Math.max(0, Math.min(1, window.scrollY / docHeight)) : 0;
+      targetProgressRef.current = curProg;
+      currentProgressRef.current = curProg;
       drawPaperScene(curProg);
     };
 
@@ -1214,28 +1225,50 @@ const InteractiveBackground = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [drawPaperScene]);
 
-  // Pure scroll listener: updates drawing strictly when scrolling
-  // 0 CPU/GPU waste when idle
+  // Buttery-smooth lerp animation loop:
+  // Interpolates current progress smoothly to target scroll progress with zero jitter.
+  // When target is reached and user is idle, RAF cancels itself completely (0 CPU/GPU usage).
   useEffect(() => {
-    let ticking = false;
+    const updateInterpolation = () => {
+      const diff = targetProgressRef.current - currentProgressRef.current;
+
+      // When difference is microscopic, snap to target and sleep
+      if (Math.abs(diff) < 0.00015) {
+        currentProgressRef.current = targetProgressRef.current;
+        drawPaperScene(currentProgressRef.current);
+        isRunningRef.current = false;
+        animFrameIdRef.current = null;
+        return;
+      }
+
+      // Smooth dampening factor (0.18 provides immediate responsive feel without lag or jitter)
+      currentProgressRef.current += diff * 0.18;
+      drawPaperScene(currentProgressRef.current);
+
+      animFrameIdRef.current = window.requestAnimationFrame(updateInterpolation);
+    };
 
     const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = docHeight > 0 ? Math.max(0, Math.min(1, window.scrollY / docHeight)) : 0;
-          setScrollProgress(progress);
-          drawPaperScene(progress);
-          ticking = false;
-        });
-        ticking = true;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const target = docHeight > 0 ? Math.max(0, Math.min(1, window.scrollY / docHeight)) : 0;
+      targetProgressRef.current = target;
+
+      // Start the interpolation loop if not already running
+      if (!isRunningRef.current) {
+        isRunningRef.current = true;
+        animFrameIdRef.current = window.requestAnimationFrame(updateInterpolation);
       }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (animFrameIdRef.current) {
+        window.cancelAnimationFrame(animFrameIdRef.current);
+      }
+    };
   }, [drawPaperScene]);
 
   return (
@@ -1243,7 +1276,7 @@ const InteractiveBackground = () => {
       {/* 1. PAPER-STYLE ANIMATION CANVAS */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full block"
+        className="absolute inset-0 w-full h-full block will-change-transform"
       />
 
       {/* 2. ATMOSPHERIC SCRIM (Protects readability across mobile and desktop) */}
@@ -1253,23 +1286,23 @@ const InteractiveBackground = () => {
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#040d1a] to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#040d1a] to-transparent pointer-events-none" />
 
-      {/* Dynamic cut-paper ambient backlights */}
+      {/* Dynamic cut-paper ambient backlights with GPU compositing */}
       <div
-        className="absolute w-[600px] h-[600px] rounded-full blur-[160px] pointer-events-none transition-transform duration-700"
+        className="absolute w-[600px] h-[600px] rounded-full blur-[160px] pointer-events-none transform-gpu"
         style={{
           background: 'radial-gradient(circle, rgba(29,99,216,0.18) 0%, rgba(7,22,44,0) 70%)',
           right: '8%',
-          top: `${20 + scrollProgress * 50}%`,
+          top: '35%',
         }}
       />
 
       {/* 3. TECHNICAL STATUS PILL (Active Theory / Paper Art Indicator) */}
-      <div className="hidden lg:flex fixed bottom-8 left-8 z-20 items-center gap-3 px-4 py-2 rounded-full bg-[#07162c]/85 backdrop-blur-md border border-[#1D63D8]/35 text-[10px] tracking-widest text-[#B3C5DE] uppercase select-none transition-opacity duration-300">
+      <div className="hidden lg:flex fixed bottom-8 left-8 z-20 items-center gap-3 px-4 py-2 rounded-full bg-[#07162c]/85 backdrop-blur-md border border-[#1D63D8]/35 text-[10px] tracking-widest text-[#B3C5DE] uppercase select-none pointer-events-none">
         <span className="w-2 h-2 rounded-full bg-[#F2C14E] animate-pulse" />
         <span className="text-[#F2C14E] font-bold">PAPER ART :</span>
-        <span className="font-mono text-white tracking-wider">{repStatus}</span>
+        <span ref={statusRef} className="font-mono text-white tracking-wider">READY AT PLATFORM</span>
         <span className="text-white/25">|</span>
-        <span className="text-[#8EA4C4] font-mono">[{Math.round(scrollProgress * 100)}%]</span>
+        <span ref={pctRef} className="text-[#8EA4C4] font-mono">[0%]</span>
       </div>
     </div>
   );
