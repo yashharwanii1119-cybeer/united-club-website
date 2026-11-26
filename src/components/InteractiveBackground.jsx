@@ -154,30 +154,109 @@ const InteractiveBackground = () => {
     };
 
     // =========================================================================
-    // LAYER 1: BACKGROUND PAPER CUT ARCHITECTURE & GYM WALL CUT-OUTS
+    // LAYER 1: COMPLETE IMMERSIVE PAPER-ART GYM ENVIRONMENT
+    // Crafted with layered cut-paper cardstock, industrial architecture, and authentic strength equipment.
+    // Enhanced with subtle scroll-reactive parallax depth offsets!
     // =========================================================================
-    // Distant gym wall panels (Deep Navy Paper Cut-Outs)
-    const wallLeft = originX - scale * 0.65;
-    const wallRight = originX + scale * 0.65;
-    const wallTop = originY - scale * 0.48;
-    const wallBottom = originY + scale * 0.48;
+    
+    // Parallax displacements based on scroll progress (p):
+    // Distant background moves very slowly, midground responds moderately, foreground framing glides snappily
+    const bgParallaxX = (p - 0.5) * scale * 0.06;
+    const midParallaxX = (p - 0.5) * scale * 0.12;
 
-    // Geometric accent cut-paper polygon in the deep background
+    const wallLeft = originX - scale * 0.72 + bgParallaxX;
+    const wallRight = originX + scale * 0.70 + bgParallaxX;
+    const wallTop = originY - scale * 0.52;
+    const wallBottom = originY + scale * 0.52;
+
+    // A. INDUSTRIAL CEILING BEAMS & HVAC DUCT PAPER CUT-OUTS (Distant Ceiling Architecture)
+    // Horizontal steel I-beam girder running across top gym ceiling
     drawPaperPoly(
       [
-        [wallLeft + scale * 0.1, wallTop],
-        [wallRight - scale * 0.05, wallTop],
-        [wallRight + scale * 0.05, wallBottom - scale * 0.1],
-        [wallLeft - scale * 0.05, wallBottom],
+        [wallLeft - scale * 0.15, wallTop - scale * 0.04],
+        [wallRight + scale * 0.15, wallTop - scale * 0.04],
+        [wallRight + scale * 0.15, wallTop + scale * 0.035],
+        [wallLeft - scale * 0.15, wallTop + scale * 0.035],
+      ],
+      '#061325',
+      'rgba(29, 99, 216, 0.3)',
+      1.5,
+      8,
+      4
+    );
+    // Lower flange of the I-beam
+    drawPaperPoly(
+      [
+        [wallLeft - scale * 0.15, wallTop + scale * 0.025],
+        [wallRight + scale * 0.15, wallTop + scale * 0.025],
+        [wallRight + scale * 0.15, wallTop + scale * 0.045],
+        [wallLeft - scale * 0.15, wallTop + scale * 0.045],
+      ],
+      '#091D38',
+      'rgba(244, 247, 252, 0.15)',
+      1,
+      6,
+      3
+    );
+    // Industrial pendant track spotlight cans hanging from ceiling
+    for (let lightIdx = 0; lightIdx < 3; lightIdx++) {
+      const lx = wallLeft + scale * 0.28 + lightIdx * (scale * 0.38);
+      // Pendant stem wire
+      drawPaperPoly(
+        [
+          [lx - 1.5, wallTop + scale * 0.045],
+          [lx + 1.5, wallTop + scale * 0.045],
+          [lx + 1.5, wallTop + scale * 0.10],
+          [lx - 1.5, wallTop + scale * 0.10],
+        ],
+        '#081B34',
+        null,
+        0,
+        0,
+        0
+      );
+      // Lamp shade cone (angled paper trapezoid)
+      drawPaperPoly(
+        [
+          [lx - scale * 0.022, wallTop + scale * 0.10],
+          [lx + scale * 0.022, wallTop + scale * 0.10],
+          [lx + scale * 0.035, wallTop + scale * 0.13],
+          [lx - scale * 0.035, wallTop + scale * 0.13],
+        ],
+        '#0D294E',
+        'rgba(242, 193, 78, 0.4)',
+        1,
+        6,
+        3
+      );
+      // Subtle cone light glow on the gym floor/wall
+      ctx.save();
+      const glowGrad = ctx.createRadialGradient(lx, wallTop + scale * 0.13, 2, lx, wallTop + scale * 0.24, scale * 0.15);
+      glowGrad.addColorStop(0, 'rgba(242, 193, 78, 0.08)');
+      glowGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(lx, wallTop + scale * 0.18, scale * 0.14, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // B. DISTANT GYM WALL PANELS & INDUSTRIAL ARCHITECTURAL CUT-OUTS
+    drawPaperPoly(
+      [
+        [wallLeft + scale * 0.08, wallTop + scale * 0.04],
+        [wallRight - scale * 0.02, wallTop + scale * 0.04],
+        [wallRight + scale * 0.08, wallBottom - scale * 0.08],
+        [wallLeft - scale * 0.04, wallBottom],
       ],
       '#07162C',
-      'rgba(29, 99, 216, 0.25)',
+      'rgba(29, 99, 216, 0.22)',
       1.5,
-      14,
-      8
+      12,
+      6
     );
 
-    // Decorative diagonal paper slats / louvers (Architectural depth)
+    // Architectural diagonal slats / acoustic gym louvers
     for (let s = 0; s < 7; s++) {
       const sx = wallLeft + scale * 0.08 + s * (scale * 0.14);
       drawPaperPoly(
@@ -187,28 +266,388 @@ const InteractiveBackground = () => {
           [sx + scale * 0.03, wallBottom - scale * 0.08],
           [sx - scale * 0.05, wallBottom - scale * 0.08],
         ],
-        s % 2 === 0 ? 'rgba(12, 35, 68, 0.55)' : 'rgba(17, 48, 92, 0.45)',
-        'rgba(29, 99, 216, 0.18)',
+        s % 2 === 0 ? 'rgba(12, 35, 68, 0.45)' : 'rgba(17, 48, 92, 0.35)',
+        'rgba(29, 99, 216, 0.14)',
         1,
-        6,
-        3
+        4,
+        2
       );
     }
 
-    // Floor Rubber Mat Paper Layer (Inclined perspective ground)
+    // C. FULL-LENGTH GYM MIRROR REFLECTION WALL (Deep Background Behind Racks)
+    const mirrorLeft = wallLeft + scale * 0.12;
+    const mirrorRight = wallLeft + scale * 0.58;
+    const mirrorTop = wallTop + scale * 0.12;
+    const mirrorBottom = originY + scale * 0.34;
+    // Mirror glass panel with crisp bevel borders
     drawPaperPoly(
       [
-        [wallLeft - scale * 0.1, originY + scale * 0.38],
-        [wallRight + scale * 0.1, originY + scale * 0.38],
-        [wallRight + scale * 0.15, originY + scale * 0.55],
-        [wallLeft - scale * 0.15, originY + scale * 0.55],
+        [mirrorLeft, mirrorTop],
+        [mirrorRight, mirrorTop],
+        [mirrorRight, mirrorBottom],
+        [mirrorLeft, mirrorBottom],
+      ],
+      '#081D3B',
+      'rgba(244, 247, 252, 0.25)',
+      2,
+      10,
+      5
+    );
+    // Mirror glass reflection diagonal streaks (paper creases)
+    drawPaperCrease(mirrorLeft + scale * 0.05, mirrorTop + scale * 0.02, mirrorLeft + scale * 0.22, mirrorBottom - scale * 0.02, true);
+    drawPaperCrease(mirrorLeft + scale * 0.18, mirrorTop + scale * 0.02, mirrorLeft + scale * 0.35, mirrorBottom - scale * 0.02, true);
+
+    // D. DUAL OLYMPIC POWER SQUAT RACK SILHOUETTE (Midground Left, Behind Athlete)
+    // Sits in midground parallax layer
+    const rackX = wallLeft + scale * 0.18 + midParallaxX;
+    const rackY = originY + scale * 0.34;
+    const rackH = scale * 0.38;
+    const rackW = scale * 0.24;
+
+    // Upright steel posts (Left & Right vertical columns)
+    drawPaperPoly(
+      [
+        [rackX, rackY - rackH],
+        [rackX + scale * 0.022, rackY - rackH],
+        [rackX + scale * 0.022, rackY],
+        [rackX, rackY],
+      ],
+      '#0C2548',
+      'rgba(29, 99, 216, 0.5)',
+      1.5,
+      8,
+      4
+    );
+    drawPaperPoly(
+      [
+        [rackX + rackW, rackY - rackH],
+        [rackX + rackW + scale * 0.022, rackY - rackH],
+        [rackX + rackW + scale * 0.022, rackY],
+        [rackX + rackW, rackY],
+      ],
+      '#0C2548',
+      'rgba(29, 99, 216, 0.5)',
+      1.5,
+      8,
+      4
+    );
+    // Rack Upper Crossmember with Chin-Up Bar
+    drawPaperPoly(
+      [
+        [rackX - scale * 0.01, rackY - rackH + scale * 0.01],
+        [rackX + rackW + scale * 0.03, rackY - rackH + scale * 0.01],
+        [rackX + rackW + scale * 0.03, rackY - rackH + scale * 0.032],
+        [rackX - scale * 0.01, rackY - rackH + scale * 0.032],
+      ],
+      '#133766',
+      'rgba(244, 247, 252, 0.35)',
+      1.5,
+      6,
+      3
+    );
+    // Safety spotter arms on squat rack
+    drawPaperPoly(
+      [
+        [rackX - scale * 0.02, rackY - rackH * 0.45],
+        [rackX + rackW + scale * 0.04, rackY - rackH * 0.45],
+        [rackX + rackW + scale * 0.04, rackY - rackH * 0.45 + scale * 0.018],
+        [rackX - scale * 0.02, rackY - rackH * 0.45 + scale * 0.018],
+      ],
+      '#1D63D8',
+      'rgba(242, 193, 78, 0.5)',
+      1,
+      6,
+      3
+    );
+    // Olympic Barbell resting on the J-hooks inside the rack
+    drawPaperPoly(
+      [
+        [rackX - scale * 0.08, rackY - rackH * 0.62],
+        [rackX + rackW + scale * 0.10, rackY - rackH * 0.62],
+        [rackX + rackW + scale * 0.10, rackY - rackH * 0.62 + scale * 0.012],
+        [rackX - scale * 0.08, rackY - rackH * 0.62 + scale * 0.012],
+      ],
+      '#D7E1F0',
+      '#040D1A',
+      1,
+      6,
+      3
+    );
+    // Olympic Weight Plates loaded on the rack barbell ends
+    drawPaperPoly(
+      [
+        [rackX - scale * 0.075, rackY - rackH * 0.62 - scale * 0.04],
+        [rackX - scale * 0.065, rackY - rackH * 0.62 - scale * 0.04],
+        [rackX - scale * 0.065, rackY - rackH * 0.62 + scale * 0.052],
+        [rackX - scale * 0.075, rackY - rackH * 0.62 + scale * 0.052],
+      ],
+      '#1D63D8',
+      '#040D1A',
+      1.5,
+      6,
+      3
+    );
+    drawPaperPoly(
+      [
+        [rackX + rackW + scale * 0.085, rackY - rackH * 0.62 - scale * 0.04],
+        [rackX + rackW + scale * 0.095, rackY - rackH * 0.62 - scale * 0.04],
+        [rackX + rackW + scale * 0.095, rackY - rackH * 0.62 + scale * 0.052],
+        [rackX + rackW + scale * 0.085, rackY - rackH * 0.62 + scale * 0.052],
+      ],
+      '#1D63D8',
+      '#040D1A',
+      1.5,
+      6,
+      3
+    );
+
+    // E. MULTI-TIER PRO-STYLE DUMBBELL RACK WITH CAST-IRON DUMBBELLS (Midground Deep Left)
+    const dbRackX = wallLeft + scale * 0.44 + midParallaxX;
+    const dbRackY = originY + scale * 0.35;
+    const dbTierW = scale * 0.22;
+    // Lower Shelf
+    drawPaperPoly(
+      [
+        [dbRackX, dbRackY],
+        [dbRackX + dbTierW, dbRackY - scale * 0.025],
+        [dbRackX + dbTierW + scale * 0.01, dbRackY - scale * 0.015],
+        [dbRackX, dbRackY + scale * 0.012],
+      ],
+      '#0C2344',
+      'rgba(29, 99, 216, 0.4)',
+      1,
+      6,
+      3
+    );
+    // Upper Shelf
+    drawPaperPoly(
+      [
+        [dbRackX + scale * 0.015, dbRackY - scale * 0.055],
+        [dbRackX + dbTierW + scale * 0.015, dbRackY - scale * 0.08],
+        [dbRackX + dbTierW + scale * 0.025, dbRackY - scale * 0.07],
+        [dbRackX + scale * 0.015, dbRackY - scale * 0.045],
+      ],
+      '#0C2344',
+      'rgba(29, 99, 216, 0.4)',
+      1,
+      6,
+      3
+    );
+    // Dumbbells lined up in neat ascending paper-cut pairs
+    for (let db = 0; db < 4; db++) {
+      const dbX = dbRackX + scale * 0.03 + db * (scale * 0.046);
+      const dbY = dbRackY - scale * 0.058 - db * (scale * 0.005);
+      // Dumbbell handle bar
+      drawPaperPoly(
+        [
+          [dbX - scale * 0.004, dbY - scale * 0.014],
+          [dbX + scale * 0.004, dbY - scale * 0.014],
+          [dbX + scale * 0.004, dbY + scale * 0.014],
+          [dbX - scale * 0.004, dbY + scale * 0.014],
+        ],
+        '#D7E1F0',
+        null,
+        0,
+        0,
+        0
+      );
+      // Top plate head
+      drawPaperPoly(
+        [
+          [dbX - scale * 0.012, dbY - scale * 0.020],
+          [dbX + scale * 0.012, dbY - scale * 0.020],
+          [dbX + scale * 0.012, dbY - scale * 0.012],
+          [dbX - scale * 0.012, dbY - scale * 0.012],
+        ],
+        '#051122',
+        '#1D63D8',
+        1,
+        4,
+        2
+      );
+      // Bottom plate head
+      drawPaperPoly(
+        [
+          [dbX - scale * 0.012, dbY + scale * 0.012],
+          [dbX + scale * 0.012, dbY + scale * 0.012],
+          [dbX + scale * 0.012, dbY + scale * 0.020],
+          [dbX - scale * 0.012, dbY + scale * 0.020],
+        ],
+        '#051122',
+        '#1D63D8',
+        1,
+        4,
+        2
+      );
+    }
+
+    // F. INCLINED ADJUSTABLE WORKOUT BENCH (Midground near Dumbbell Rack)
+    const benchX = wallLeft + scale * 0.36 + midParallaxX;
+    const benchY = originY + scale * 0.36;
+    // Bench angled back rest
+    drawPaperPoly(
+      [
+        [benchX - scale * 0.05, benchY - scale * 0.07],
+        [benchX - scale * 0.038, benchY - scale * 0.075],
+        [benchX + scale * 0.01, benchY - scale * 0.01],
+        [benchX - scale * 0.002, benchY - scale * 0.005],
+      ],
+      '#07162C',
+      '#1D63D8',
+      1.5,
+      6,
+      3
+    );
+    // Bench seat pad
+    drawPaperPoly(
+      [
+        [benchX, benchY - scale * 0.008],
+        [benchX + scale * 0.04, benchY - scale * 0.015],
+        [benchX + scale * 0.04, benchY],
+        [benchX, benchY + scale * 0.006],
+      ],
+      '#07162C',
+      '#1D63D8',
+      1.5,
+      4,
+      2
+    );
+    // Bench steel support frame
+    drawPaperPoly(
+      [
+        [benchX - scale * 0.015, benchY],
+        [benchX + scale * 0.035, benchY],
+        [benchX + scale * 0.035, benchY + scale * 0.022],
+        [benchX - scale * 0.015, benchY + scale * 0.022],
+      ],
+      '#0B213D',
+      'rgba(244, 247, 252, 0.25)',
+      1,
+      4,
+      2
+    );
+
+    // G. DISTANT CABLE CROSSOVER / DUAL PULLEY TOWER (Distant Right Background, Framing Machine)
+    const cableTowerX = originX + scale * 0.52 + bgParallaxX;
+    const cableTowerY = originY + scale * 0.38;
+    const cableH = scale * 0.44;
+    // Cable column vertical housing
+    drawPaperPoly(
+      [
+        [cableTowerX, cableTowerY - cableH],
+        [cableTowerX + scale * 0.04, cableTowerY - cableH],
+        [cableTowerX + scale * 0.04, cableTowerY],
+        [cableTowerX, cableTowerY],
+      ],
+      '#071B35',
+      'rgba(29, 99, 216, 0.4)',
+      1.5,
+      8,
+      4
+    );
+    // Weight selector stack cut-out slits inside the cable column
+    for (let st = 0; st < 6; st++) {
+      const stY = cableTowerY - cableH * 0.55 + st * (scale * 0.016);
+      drawPaperPoly(
+        [
+          [cableTowerX + scale * 0.006, stY],
+          [cableTowerX + scale * 0.034, stY],
+          [cableTowerX + scale * 0.034, stY + scale * 0.010],
+          [cableTowerX + scale * 0.006, stY + scale * 0.010],
+        ],
+        st % 2 === 0 ? '#0B2342' : '#0F2F59',
+        'rgba(242, 193, 78, 0.3)',
+        0.8,
+        2,
+        1
+      );
+    }
+    // Top pulley wheel & cable track
+    drawPaperCircle(cableTowerX + scale * 0.02, cableTowerY - cableH + scale * 0.018, scale * 0.014, '#1D63D8', '#F4F7FC', 1, 4);
+
+    // H. TOASTER-STYLE WEIGHT PLATE STORAGE TREE (Near Leg Press Machine Base)
+    const treeX = originX + scale * 0.38 + midParallaxX;
+    const treeY = originY + scale * 0.38;
+    // Central steel mast
+    drawPaperPoly(
+      [
+        [treeX, treeY - scale * 0.16],
+        [treeX + scale * 0.015, treeY - scale * 0.16],
+        [treeX + scale * 0.015, treeY],
+        [treeX, treeY],
+      ],
+      '#0C2549',
+      'rgba(29, 99, 216, 0.45)',
+      1,
+      6,
+      3
+    );
+    // Peg 1 with 45 lb Olympic plates (Royal Blue Cut Paper Disc)
+    drawPaperPoly(
+      [
+        [treeX - scale * 0.035, treeY - scale * 0.13],
+        [treeX - scale * 0.022, treeY - scale * 0.13],
+        [treeX - scale * 0.022, treeY - scale * 0.05],
+        [treeX - scale * 0.035, treeY - scale * 0.05],
+      ],
+      '#1D63D8',
+      '#040D1A',
+      1.5,
+      6,
+      3
+    );
+    // Peg 2 with 25 lb Olympic plates
+    drawPaperPoly(
+      [
+        [treeX + scale * 0.032, treeY - scale * 0.10],
+        [treeX + scale * 0.043, treeY - scale * 0.10],
+        [treeX + scale * 0.043, treeY - scale * 0.035],
+        [treeX + scale * 0.032, treeY - scale * 0.035],
+      ],
+      '#F2C14E',
+      '#040D1A',
+      1.5,
+      6,
+      3
+    );
+    // Cast iron Kettlebell resting on the floor beside the weight tree
+    drawPaperCircle(treeX - scale * 0.05, treeY - scale * 0.018, scale * 0.022, '#081D3A', '#1D63D8', 1.5, 4);
+    // Kettlebell handle arch
+    drawPaperPoly(
+      [
+        [treeX - scale * 0.062, treeY - scale * 0.035],
+        [treeX - scale * 0.038, treeY - scale * 0.035],
+        [treeX - scale * 0.042, treeY - scale * 0.045],
+        [treeX - scale * 0.058, treeY - scale * 0.045],
+      ],
+      '#D7E1F0',
+      '#040D1A',
+      1,
+      2,
+      1
+    );
+
+    // I. FLOOR HEAVY-DUTY RUBBER TILES & INTERLOCK SEAMS
+    drawPaperPoly(
+      [
+        [wallLeft - scale * 0.15, originY + scale * 0.36],
+        [wallRight + scale * 0.18, originY + scale * 0.36],
+        [wallRight + scale * 0.22, originY + scale * 0.58],
+        [wallLeft - scale * 0.20, originY + scale * 0.58],
       ],
       '#040D1A',
-      'rgba(29, 99, 216, 0.4)',
+      'rgba(29, 99, 216, 0.45)',
       2,
-      12,
+      14,
       8
     );
+    // Rubber gym mat floor seams (perspective cut grid lines)
+    for (let mat = 0; mat < 5; mat++) {
+      const mx = wallLeft + scale * 0.05 + mat * (scale * 0.28);
+      drawPaperCrease(mx, originY + scale * 0.36, mx - scale * 0.08, originY + scale * 0.58, false);
+    }
+    // Floor distance depth division line
+    drawPaperCrease(wallLeft - scale * 0.1, originY + scale * 0.44, wallRight + scale * 0.15, originY + scale * 0.44, true);
 
     // =========================================================================
     // LAYER 2: 45° COMMERCIAL LEG PRESS CHASSIS & STATIONARY MACHINE FRAME
