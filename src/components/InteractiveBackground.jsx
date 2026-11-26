@@ -59,17 +59,17 @@ const InteractiveBackground = () => {
 
     let originX, originY, scale;
     if (isDesktop) {
-      originX = w * 0.65;
+      originX = w * 0.66;
       originY = h * 0.52;
-      scale = Math.min(w, h) * 1.0;
+      scale = Math.min(w, h) * 1.08;
     } else if (isTablet) {
       originX = w * 0.58;
       originY = h * 0.50;
-      scale = Math.min(w, h) * 0.88;
+      scale = Math.min(w, h) * 0.94;
     } else {
       originX = isSmallMobile ? w * 0.54 : w * 0.52;
       originY = h * 0.48;
-      scale = Math.min(w * 0.92, h * 0.65);
+      scale = Math.min(w * 0.96, h * 0.70);
     }
 
     // Kinetic calculation of leg press extension:
@@ -99,7 +99,7 @@ const InteractiveBackground = () => {
           ctx.lineTo(points[i][0] + offX, points[i][1] + offY);
         }
         ctx.closePath();
-        ctx.fillStyle = 'rgba(2, 6, 14, 0.45)';
+        ctx.fillStyle = 'rgba(1, 4, 10, 0.68)';
         ctx.fill();
       }
 
@@ -125,7 +125,7 @@ const InteractiveBackground = () => {
       if (shadowBlur > 0) {
         ctx.beginPath();
         ctx.arc(cx + 2.5, cy + 4, r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(2, 6, 14, 0.4)';
+        ctx.fillStyle = 'rgba(1, 4, 10, 0.60)';
         ctx.fill();
       }
 
@@ -1285,20 +1285,29 @@ const InteractiveBackground = () => {
         className="absolute inset-0 w-full h-full block will-change-transform"
       />
 
-      {/* 2. ATMOSPHERIC SCRIM (Protects readability across mobile and desktop) */}
-      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#040d1a]/90 via-[#040d1a]/80 md:via-[#040d1a]/70 to-[#040d1a]/40 md:to-transparent w-full md:w-[58%] pointer-events-none" />
+      {/* 2. ATMOSPHERIC SCRIM (Lightened and narrowed to left side so character animation stays brilliantly clear) */}
+      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#040d1a]/80 via-[#040d1a]/60 md:via-[#040d1a]/45 to-[#040d1a]/15 md:to-transparent w-full md:w-[48%] pointer-events-none" />
 
-      {/* Top & bottom vignettes to integrate seamlessly */}
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#040d1a] to-transparent pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#040d1a] to-transparent pointer-events-none" />
+      {/* Softer top & bottom vignettes */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#040d1a]/80 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#040d1a]/80 to-transparent pointer-events-none" />
 
-      {/* Dynamic cut-paper ambient backlights with GPU compositing */}
+      {/* Targeted spotlight glow directly framing the character & leg press machine */}
       <div
-        className="absolute w-[600px] h-[600px] rounded-full blur-[160px] pointer-events-none transform-gpu"
+        className="absolute w-[700px] sm:w-[900px] h-[700px] sm:h-[900px] rounded-full blur-[120px] pointer-events-none transform-gpu mix-blend-screen"
         style={{
-          background: 'radial-gradient(circle, rgba(29,99,216,0.18) 0%, rgba(7,22,44,0) 70%)',
-          right: '8%',
-          top: '35%',
+          background: 'radial-gradient(circle, rgba(29,99,216,0.30) 0%, rgba(37,99,235,0.12) 45%, rgba(7,22,44,0) 75%)',
+          right: '6%',
+          top: '30%',
+        }}
+      />
+      {/* Subtle warm rim glow accentuating the athlete's paper physique */}
+      <div
+        className="absolute w-[450px] sm:w-[550px] h-[450px] sm:h-[550px] rounded-full blur-[90px] pointer-events-none transform-gpu"
+        style={{
+          background: 'radial-gradient(circle, rgba(242,193,78,0.10) 0%, transparent 70%)',
+          right: '18%',
+          top: '38%',
         }}
       />
 

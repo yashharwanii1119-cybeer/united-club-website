@@ -3,7 +3,7 @@ import { ShieldCheck, Compass, Users2, Zap, ArrowUpRight } from 'lucide-react';
 
 const AboutClub = () => {
   return (
-    <section id="about" className="relative py-20 sm:py-24 md:py-32 bg-[#040d1a]/80 border-t border-[#1D63D8]/20 overflow-hidden">
+    <section id="about" className="relative py-20 sm:py-24 md:py-32 bg-[#040d1a]/55 border-t border-[#1D63D8]/20 overflow-hidden">
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#1D63D8]/10 rounded-full blur-[160px] pointer-events-none" />
 

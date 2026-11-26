@@ -17,7 +17,7 @@ function App() {
       <InteractiveBackground />
 
       {/* Subtle Grain Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-30 grain-overlay opacity-25" />
+      <div className="fixed inset-0 pointer-events-none z-30 grain-overlay opacity-12" />
 
       {/* Navigation */}
       <Navbar />
