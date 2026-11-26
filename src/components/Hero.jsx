@@ -32,7 +32,7 @@ const Hero = () => {
           preload="auto"
           onLoadedData={() => setVideoLoaded(true)}
           poster={fallbackPoster}
-          className={`w-full h-full object-cover object-[68%_center] sm:object-[72%_center] md:object-[78%_center] transition-opacity duration-1000 ${
+          className={`w-full h-full object-cover object-[52%_center] sm:object-[70%_center] md:object-[78%_center] transition-opacity duration-1000 ${
             videoLoaded ? 'opacity-100' : 'opacity-85'
           }`}
           style={{ filter: 'contrast(1.08) brightness(1.04) saturate(1.06)' }}
