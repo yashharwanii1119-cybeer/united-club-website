@@ -48,10 +48,14 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
-        {/* Brand Logo matching official signboard emblem */}
+        {/* Brand Logo matching official stylized UC monogram emblem */}
         <a href="#hero" className="group flex items-center gap-2.5 sm:gap-3" onClick={() => setMobileMenuOpen(false)}>
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-sm bg-[#0a1f44] border border-[#1D63D8]/60 flex items-center justify-center font-display text-lg sm:text-xl text-[#F4F7FC] tracking-wider transition-all duration-300 group-hover:border-[#F2C14E] group-hover:text-[#F2C14E] group-hover:shadow-[0_0_15px_rgba(242,193,78,0.35)] shrink-0">
-            UC
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0a1f44]/80 border border-[#1D63D8]/60 p-1 flex items-center justify-center transition-all duration-300 group-hover:border-[#F2C14E] group-hover:shadow-[0_0_18px_rgba(242,193,78,0.4)] shrink-0 overflow-hidden">
+            <img
+              src={`${import.meta.env.BASE_URL}images/uc-logo.png`}
+              alt="United Club Official UC Logo"
+              className="w-full h-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-105"
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-display text-xl sm:text-2xl md:text-3xl tracking-widest text-[#F4F7FC] group-hover:text-white transition-colors leading-none">

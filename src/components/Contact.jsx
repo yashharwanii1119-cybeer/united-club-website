@@ -12,8 +12,12 @@ const Contact = () => {
           {/* Brand & Mission Statement */}
           <div className="md:col-span-2 lg:col-span-5">
             <div className="flex items-center gap-3 mb-4 sm:mb-6">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-sm bg-[#07162c] border border-[#1D63D8]/50 flex items-center justify-center font-display text-xl sm:text-2xl text-[#F4F7FC] tracking-wider shrink-0">
-                UC
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#07162c] border border-[#1D63D8]/50 p-1.5 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(29,99,216,0.25)] overflow-hidden">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/uc-logo.png`}
+                  alt="United Club Official UC Logo"
+                  className="w-full h-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                />
               </div>
               <span className="font-display text-2xl sm:text-3xl md:text-4xl tracking-widest text-[#F4F7FC]">
                 UNITED<span className="text-[#F2C14E]">.</span>CLUB
