@@ -7,7 +7,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 30) {
+      if (window.scrollY > 20) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -43,14 +43,14 @@ const Navbar = () => {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || mobileMenuOpen
-          ? 'bg-[#07162c]/95 backdrop-blur-md py-3 md:py-4 border-b border-[#1D63D8]/20 shadow-[0_10px_30px_rgba(4,13,26,0.85)]' 
-          : 'bg-gradient-to-b from-[#040d1a]/90 via-[#07162c]/50 to-transparent py-4 md:py-8'
+          ? 'bg-[#061426]/95 backdrop-blur-md py-3 md:py-4 border-b border-[#1D63D8]/30 shadow-[0_10px_30px_rgba(4,13,26,0.9)]' 
+          : 'bg-[#061426]/75 md:bg-gradient-to-b md:from-[#040d1a]/90 md:via-[#07162c]/50 md:to-transparent backdrop-blur-sm md:backdrop-blur-none py-3.5 md:py-8 border-b border-[#1D63D8]/20 md:border-b-0 shadow-[0_4px_20px_rgba(2,6,14,0.4)] md:shadow-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
         {/* Brand Logo matching official stylized UC monogram emblem */}
         <a href="#hero" className="group flex items-center gap-2.5 sm:gap-3" onClick={() => setMobileMenuOpen(false)}>
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0a1f44]/80 border border-[#1D63D8]/60 p-1 flex items-center justify-center transition-all duration-300 group-hover:border-[#F2C14E] group-hover:shadow-[0_0_18px_rgba(242,193,78,0.4)] shrink-0 overflow-hidden">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#0a1f44] border border-[#1D63D8]/60 p-1 flex items-center justify-center transition-all duration-300 group-hover:border-[#F2C14E] group-hover:shadow-[0_0_18px_rgba(242,193,78,0.4)] shrink-0 overflow-hidden shadow-sm">
             <img
               src={`${import.meta.env.BASE_URL}images/uc-logo.png`}
               alt="United Club Official UC Logo"
@@ -61,7 +61,7 @@ const Navbar = () => {
             <span className="font-display text-xl sm:text-2xl md:text-3xl tracking-widest text-[#F4F7FC] group-hover:text-white transition-colors leading-none">
               UNITED<span className="text-[#F2C14E]">.</span>CLUB
             </span>
-            <span className="text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] text-[#8EA4C4] uppercase font-sans font-medium truncate max-w-[180px] sm:max-w-none">
+            <span className="text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] text-[#8EA4C4] uppercase font-sans font-medium truncate max-w-[170px] sm:max-w-none">
               Dholpur • Premier Fitness
             </span>
           </div>
@@ -92,20 +92,28 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* Mobile Hamburger Button with proper touch target (44px min) */}
+        {/* Mobile Hamburger Button: Solid luxury container, high contrast, clean SVG rendering */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg bg-[#0c1f3d]/60 border border-[#1D63D8]/30 text-[#F4F7FC] hover:text-[#F2C14E] hover:border-[#F2C14E]/50 focus:outline-none transition-colors"
+          className={`lg:hidden w-11 h-11 flex items-center justify-center rounded-lg transition-all duration-300 shrink-0 ${
+            mobileMenuOpen
+              ? 'bg-[#F2C14E] text-[#07162c] border border-[#F2C14E] shadow-[0_0_15px_rgba(242,193,78,0.4)]'
+              : 'bg-[#0a1f44] text-[#F4F7FC] border border-[#1D63D8]/60 hover:border-[#F2C14E] hover:text-[#F2C14E] shadow-[0_4px_12px_rgba(2,6,14,0.6)]'
+          } focus:outline-none`}
           aria-label="Toggle navigation menu"
           aria-expanded={mobileMenuOpen}
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6 stroke-[2.2]" />
+          ) : (
+            <Menu className="w-6 h-6 stroke-[2.2]" />
+          )}
         </button>
       </div>
 
       {/* Mobile Drawer Navigation with backdrop blur and touch-optimized list */}
       <div 
-        className={`lg:hidden fixed inset-x-0 top-[60px] sm:top-[68px] bottom-0 bg-[#07162c]/98 backdrop-blur-2xl border-b border-[#1D63D8]/20 transition-all duration-300 overflow-y-auto ${
+        className={`lg:hidden fixed inset-x-0 top-[60px] sm:top-[68px] bottom-0 bg-[#061426]/98 backdrop-blur-2xl border-t border-[#1D63D8]/20 transition-all duration-300 overflow-y-auto ${
           mobileMenuOpen ? 'opacity-100 pointer-events-auto visible' : 'opacity-0 pointer-events-none invisible'
         }`}
       >
