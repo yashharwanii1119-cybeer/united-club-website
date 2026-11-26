@@ -8,9 +8,9 @@ const AboutClub = () => {
       <div className="absolute top-1/2 left-0 w-72 sm:w-96 h-72 sm:h-96 bg-[#1D63D8]/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-12 relative z-10">
-        {/* Editorial Subheading & Tag */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
-          <div>
+        {/* Editorial Subheading & Tag - Intentionally framed on the left to leave the right animation stage completely open */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
               <span className="w-6 sm:w-8 h-[2px] bg-[#F2C14E]" />
               <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.3em] font-semibold text-[#F2C14E]">
@@ -25,60 +25,62 @@ const AboutClub = () => {
             </h2>
           </div>
 
-          <div className="max-w-md">
+          <div className="max-w-md lg:pb-2">
             <p className="text-xs sm:text-sm md:text-base text-[#B3C5DE] font-light leading-relaxed">
               Welcome to <strong className="text-white font-medium">United Club</strong> — Dholpur’s destination for serious training, world-class equipment, and an environment meticulously curated around discipline, aesthetic progress, and pure athletic performance.
             </p>
           </div>
         </div>
 
-        {/* Hero Scale Showcase: 2,500 SQ. FT. */}
-        <div className="relative rounded-2xl overflow-hidden border border-[#1D63D8]/25 bg-[#07162c] mb-12 sm:mb-16 group">
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0 lg:min-h-[460px]">
+        {/* Hero Scale Showcase: 2,500 SQ. FT.
+            Synchronized composition: Sized and aligned to the left (max-w-4xl / lg:max-w-[62%])
+            so the animated paper character & leg press machine on the right remain completely unobstructed! */}
+        <div className="relative rounded-2xl overflow-hidden border border-[#1D63D8]/25 bg-[#07162c] mb-12 sm:mb-16 group max-w-full lg:max-w-[64%] shadow-[0_20px_50px_rgba(4,13,26,0.6)]">
+          <div className="grid grid-cols-1 md:grid-cols-12 min-h-0 md:min-h-[440px]">
             {/* Massive Stat Column */}
-            <div className="lg:col-span-5 p-6 sm:p-8 md:p-14 flex flex-col justify-between relative z-10 bg-gradient-to-br from-[#0c1f3d] via-[#07162c] to-[#040d1a]">
+            <div className="md:col-span-6 lg:col-span-6 p-6 sm:p-8 md:p-10 flex flex-col justify-between relative z-10 bg-gradient-to-br from-[#0c1f3d] via-[#07162c] to-[#040d1a]">
               <div>
                 <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#F2C14E] font-semibold">
                   SPATIAL CAPACITY
                 </span>
-                <div className="mt-2 sm:mt-4 font-display text-6xl sm:text-8xl md:text-9xl text-white tracking-tighter leading-none">
+                <div className="mt-2 sm:mt-4 font-display text-5xl sm:text-7xl md:text-8xl text-white tracking-tighter leading-none">
                   2,500
                 </div>
-                <div className="font-display text-2xl sm:text-3xl md:text-4xl text-[#F2C14E] tracking-wide">
+                <div className="font-display text-xl sm:text-2xl md:text-3xl text-[#F2C14E] tracking-wide mt-1">
                   SQ. FT. PERFORMANCE FACILITY
                 </div>
-                <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-[#B3C5DE] leading-relaxed">
+                <p className="mt-4 sm:mt-5 text-xs sm:text-sm text-[#B3C5DE] leading-relaxed">
                   The largest and most thoughtfully planned fitness space in Dholpur. Built with open functional floorplans, high ceilings, seamless air circulation, and distinct zones for isolation, heavy lifting, and athletic conditioning.
                 </p>
               </div>
 
-              <div className="pt-6 sm:pt-8 mt-6 lg:mt-0 border-t border-white/10 flex items-center justify-between text-[10px] sm:text-xs tracking-widest text-[#8EA4C4] uppercase">
+              <div className="pt-5 sm:pt-6 mt-6 md:mt-0 border-t border-white/10 flex items-center justify-between text-[10px] sm:text-xs tracking-widest text-[#8EA4C4] uppercase">
                 <span>Dholpur, Rajasthan</span>
                 <span className="text-[#F2C14E] font-medium">Prime Location</span>
               </div>
             </div>
 
             {/* Visual Cinematic Image */}
-            <div className="lg:col-span-7 relative min-h-[260px] sm:min-h-[320px] overflow-hidden">
+            <div className="md:col-span-6 lg:col-span-6 relative min-h-[240px] sm:min-h-[300px] overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1740&auto=format&fit=crop"
                 alt="Inside United Club 2500 sq ft facility"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#040d1a] via-[#040d1a]/30 to-transparent lg:bg-gradient-to-r lg:from-[#07162c] lg:via-transparent lg:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#040d1a] via-[#040d1a]/30 to-transparent md:bg-gradient-to-r md:from-[#07162c] md:via-transparent md:to-transparent" />
               
-              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-3.5 sm:p-4 rounded-xl glass-panel border-[#1D63D8]/30">
+              <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 right-4 sm:right-5 p-3 sm:p-3.5 rounded-xl glass-panel border-[#1D63D8]/30">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[11px] sm:text-xs font-semibold text-white tracking-wider uppercase block">
+                    <span className="text-[10px] sm:text-[11px] font-semibold text-white tracking-wider uppercase block">
                       ARCHITECTURAL EXCELLENCE
                     </span>
-                    <span className="text-[10px] sm:text-[11px] text-[#D7E1F0] block">
+                    <span className="text-[9px] sm:text-[10px] text-[#D7E1F0] block">
                       Zero clutter, optimal airflow & natural lighting
                     </span>
                   </div>
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F2C14E] flex items-center justify-center text-[#07162c] shrink-0">
-                    <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#F2C14E] flex items-center justify-center text-[#07162c] shrink-0">
+                    <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   </div>
                 </div>
               </div>
@@ -86,13 +88,15 @@ const AboutClub = () => {
           </div>
         </div>
 
-        {/* 3 Pillars of Distinction */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
-          <div className="p-6 sm:p-8 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-6 group-hover:border-[#F2C14E]/60 transition-colors">
-              <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
+        {/* 3 Pillars of Distinction:
+            Intelligently anchored across the bottom with a 2-column + 1-column layout on desktop (max-w-[70%])
+            so the animated paper athlete on the right maintains dedicated visual breathing room */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:max-w-[72%]">
+          <div className="p-6 sm:p-7 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-5 group-hover:border-[#F2C14E]/60 transition-colors">
+              <Zap className="w-5 h-5" />
             </div>
-            <h3 className="font-display text-xl sm:text-2xl tracking-wide text-white uppercase mb-2 sm:mb-3">
+            <h3 className="font-display text-lg sm:text-xl tracking-wide text-white uppercase mb-2">
               Elite Biomechanics
             </h3>
             <p className="text-xs sm:text-sm text-[#8EA4C4] leading-relaxed">
@@ -100,11 +104,11 @@ const AboutClub = () => {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-6 group-hover:border-[#F2C14E]/60 transition-colors">
-              <Users2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="p-6 sm:p-7 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-5 group-hover:border-[#F2C14E]/60 transition-colors">
+              <Users2 className="w-5 h-5" />
             </div>
-            <h3 className="font-display text-xl sm:text-2xl tracking-wide text-white uppercase mb-2 sm:mb-3">
+            <h3 className="font-display text-lg sm:text-xl tracking-wide text-white uppercase mb-2">
               Synchronized Timings
             </h3>
             <p className="text-xs sm:text-sm text-[#8EA4C4] leading-relaxed">
@@ -112,11 +116,11 @@ const AboutClub = () => {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group sm:col-span-2 md:col-span-1">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-6 group-hover:border-[#F2C14E]/60 transition-colors">
-              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="p-6 sm:p-7 rounded-xl bg-[#0c1f3d]/60 border border-[#1D63D8]/20 hover:border-[#F2C14E]/50 transition-all duration-300 group sm:col-span-2 lg:col-span-1">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#07162c] border border-[#1D63D8]/30 flex items-center justify-center text-[#F2C14E] mb-4 sm:mb-5 group-hover:border-[#F2C14E]/60 transition-colors">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="font-display text-xl sm:text-2xl tracking-wide text-white uppercase mb-2 sm:mb-3">
+            <h3 className="font-display text-lg sm:text-xl tracking-wide text-white uppercase mb-2">
               Unrivaled Privacy
             </h3>
             <p className="text-xs sm:text-sm text-[#8EA4C4] leading-relaxed">
