@@ -3,7 +3,7 @@ import { MapPin, User, Navigation, ArrowUpRight, Clock, ShieldCheck, PhoneCall }
 
 const Contact = () => {
   return (
-    <footer id="contact" className="relative pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 bg-[#040d1a]/85 backdrop-blur-[2px] border-t border-[#1D63D8]/20 text-[#F4F7FC] overflow-hidden">
+    <footer id="contact" className="relative pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 bg-[#040d1a]/85 border-t border-[#1D63D8]/20 text-[#F4F7FC] overflow-hidden">
       {/* Background radial accent */}
       <div className="absolute top-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#1D63D8]/10 rounded-full blur-[180px] pointer-events-none" />
 

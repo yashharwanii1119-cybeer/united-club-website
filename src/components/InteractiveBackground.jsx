@@ -81,17 +81,26 @@ const InteractiveBackground = () => {
     // Smooth extension factor between 0.0 (compressed knees) and 1.0 (full 45° leg extension)
     const extension = (1 - Math.cos(repPhase)) * 0.5;
 
-    // Helper: Draw paper layer polygon with cut-paper shadow & border
+    // Optimized paper polygon rendering:
+    // To achieve zero-lag 60/120fps scrolling, we avoid ctx.shadowBlur which triggers an expensive
+    // software Gaussian blur filter pass on every draw call.
+    // Instead, cut-paper drop shadow is simulated using an offset paper silhouette fill (dark cutout layer),
+    // which is the authentic art technique for cut-paper layering and executes via hardware acceleration.
     const drawPaperPoly = (points, fillColor, strokeColor = null, lineWidth = 0, shadowBlur = 10, shadowOffset = 6) => {
       if (points.length < 3) return;
 
-      ctx.save();
-      // Cut-paper drop shadow
-      if (shadowBlur > 0) {
-        ctx.shadowColor = 'rgba(2, 6, 14, 0.65)';
-        ctx.shadowBlur = shadowBlur;
-        ctx.shadowOffsetX = shadowOffset * 0.6;
-        ctx.shadowOffsetY = shadowOffset;
+      // Authentic cut-paper silhouette drop shadow (zero blur GPU fill)
+      if (shadowOffset > 0) {
+        ctx.beginPath();
+        const offX = shadowOffset * 0.6;
+        const offY = shadowOffset;
+        ctx.moveTo(points[0][0] + offX, points[0][1] + offY);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i][0] + offX, points[i][1] + offY);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(2, 6, 14, 0.45)';
+        ctx.fill();
       }
 
       ctx.beginPath();
@@ -105,34 +114,31 @@ const InteractiveBackground = () => {
 
       // Paper cut outline
       if (strokeColor && lineWidth > 0) {
-        ctx.shadowColor = 'transparent';
         ctx.strokeStyle = strokeColor;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
       }
-      ctx.restore();
     };
 
-    // Helper: Draw a paper cut circle
+    // Helper: Draw a paper cut circle (with fast offset cutout shadow)
     const drawPaperCircle = (cx, cy, r, fillColor, strokeColor = null, lineWidth = 0, shadowBlur = 8) => {
-      ctx.save();
       if (shadowBlur > 0) {
-        ctx.shadowColor = 'rgba(2, 6, 14, 0.6)';
-        ctx.shadowBlur = shadowBlur;
-        ctx.shadowOffsetY = 4;
+        ctx.beginPath();
+        ctx.arc(cx + 2.5, cy + 4, r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(2, 6, 14, 0.4)';
+        ctx.fill();
       }
+
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
       ctx.fillStyle = fillColor;
       ctx.fill();
 
       if (strokeColor && lineWidth > 0) {
-        ctx.shadowColor = 'transparent';
         ctx.strokeStyle = strokeColor;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
       }
-      ctx.restore();
     };
 
     // Helper: Paper fold line (crease)
@@ -1241,8 +1247,8 @@ const InteractiveBackground = () => {
         return;
       }
 
-      // Smooth dampening factor (0.18 provides immediate responsive feel without lag or jitter)
-      currentProgressRef.current += diff * 0.18;
+      // Optimized snappy dampening factor (0.24 provides immediate responsive tracking with zero lag or float)
+      currentProgressRef.current += diff * 0.24;
       drawPaperScene(currentProgressRef.current);
 
       animFrameIdRef.current = window.requestAnimationFrame(updateInterpolation);

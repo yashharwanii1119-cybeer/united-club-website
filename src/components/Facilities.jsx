@@ -42,7 +42,7 @@ const Facilities = () => {
   ];
 
   return (
-    <section id="facilities" className="relative py-20 sm:py-24 md:py-32 bg-[#061224]/80 backdrop-blur-[2px] border-t border-[#1D63D8]/20 overflow-hidden">
+    <section id="facilities" className="relative py-20 sm:py-24 md:py-32 bg-[#061224]/80 border-t border-[#1D63D8]/20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-12 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-20">

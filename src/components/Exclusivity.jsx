@@ -40,7 +40,7 @@ const Exclusivity = () => {
   ];
 
   return (
-    <section id="equipment" className="relative py-20 sm:py-24 md:py-32 bg-[#061224]/80 backdrop-blur-[2px] border-t border-[#1D63D8]/20 overflow-hidden">
+    <section id="equipment" className="relative py-20 sm:py-24 md:py-32 bg-[#061224]/80 border-t border-[#1D63D8]/20 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 right-0 w-72 sm:w-80 h-72 sm:h-80 bg-[#1D63D8]/15 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-56 sm:w-64 h-56 sm:h-64 bg-[#F2C14E]/5 rounded-full blur-[120px] pointer-events-none" />

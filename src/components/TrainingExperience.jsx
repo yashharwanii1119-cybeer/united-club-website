@@ -34,7 +34,7 @@ const TrainingExperience = () => {
   ];
 
   return (
-    <section id="training" className="relative py-20 sm:py-24 md:py-32 bg-[#040d1a]/80 backdrop-blur-[2px] border-t border-[#1D63D8]/20">
+    <section id="training" className="relative py-20 sm:py-24 md:py-32 bg-[#040d1a]/80 border-t border-[#1D63D8]/20">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">

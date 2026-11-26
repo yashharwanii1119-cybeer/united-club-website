@@ -3,7 +3,7 @@ import { Heart, Users, Sparkles, Smile, Shield } from 'lucide-react';
 
 const Community = () => {
   return (
-    <section className="relative py-20 sm:py-24 md:py-32 bg-[#07162c]/80 backdrop-blur-[2px] border-t border-[#1D63D8]/20 overflow-hidden">
+    <section className="relative py-20 sm:py-24 md:py-32 bg-[#07162c]/80 border-t border-[#1D63D8]/20 overflow-hidden">
       {/* Glow */}
       <div className="absolute bottom-0 right-1/3 w-72 sm:w-96 h-72 sm:h-96 bg-[#1D63D8]/10 rounded-full blur-[160px] pointer-events-none" />
 
