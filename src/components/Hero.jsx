@@ -1,18 +1,70 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ArrowDown, Dumbbell, Shield, Sparkles, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ArrowDown, Dumbbell, Shield, Sparkles, ChevronRight, Play } from 'lucide-react';
 
 const Hero = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
 
-  useEffect(() => {
-    // Ensure video autoplays on load even across strict browser policies
-    if (videoRef.current) {
-      videoRef.current.play().catch(error => {
-        console.log("Autoplay was prevented, muted playback will proceed:", error);
-      });
+  // Robust Autoplay attempt with lifecycle hooks, visibility recovery, and muted initialization
+  const attemptPlay = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Strict attributes required by mobile Safari / Android Chrome / WebKit
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', 'true');
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          setVideoLoaded(true);
+        })
+        .catch(() => {
+          // If browser policy initially queued or held the promise, wait for user interaction or visibility
+          setIsPlaying(false);
+        });
     }
   }, []);
+
+  useEffect(() => {
+    // 1. Initial immediate autoplay attempt
+    attemptPlay();
+
+    // 2. Retry when tab/page gains visibility or focus
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        attemptPlay();
+      }
+    };
+
+    // 3. One-time lightweight listener for first user touch/scroll/pointer interaction
+    // (Unlocks autoplay instantly if browser was in low-power or strict gesture policy)
+    const handleFirstInteraction = () => {
+      attemptPlay();
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('click', handleFirstInteraction);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('touchstart', handleFirstInteraction, { passive: true });
+    window.addEventListener('scroll', handleFirstInteraction, { passive: true });
+    window.addEventListener('click', handleFirstInteraction, { passive: true });
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('click', handleFirstInteraction);
+    };
+  }, [attemptPlay]);
 
   // High-res visual poster for smooth initial paint
   const fallbackPoster = "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop";
@@ -21,7 +73,7 @@ const Hero = () => {
     <section id="hero" className="relative min-h-[100svh] w-full flex items-center overflow-hidden bg-[#07162c]">
       {/* Cinematic Background Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Background Video with responsive object positioning */}
+        {/* Background Video with responsive object positioning and 100% reliable autoplay attributes */}
         <video
           ref={videoRef}
           autoPlay
@@ -30,7 +82,14 @@ const Hero = () => {
           playsInline
           webkit-playsinline="true"
           preload="auto"
-          onLoadedData={() => setVideoLoaded(true)}
+          disablePictureInPicture
+          disableRemotePlayback
+          onCanPlay={attemptPlay}
+          onLoadedData={() => {
+            setVideoLoaded(true);
+            attemptPlay();
+          }}
+          onPlaying={() => setIsPlaying(true)}
           poster={fallbackPoster}
           className={`w-full h-full object-cover object-[52%_center] sm:object-[70%_center] md:object-[78%_center] transition-opacity duration-1000 ${
             videoLoaded ? 'opacity-100' : 'opacity-85'
