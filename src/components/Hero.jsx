@@ -33,9 +33,9 @@ const Hero = () => {
           onLoadedData={() => setVideoLoaded(true)}
           poster={fallbackPoster}
           className={`w-full h-full object-cover object-[68%_center] sm:object-[72%_center] md:object-[78%_center] transition-opacity duration-1000 ${
-            videoLoaded ? 'opacity-90' : 'opacity-75'
+            videoLoaded ? 'opacity-100' : 'opacity-85'
           }`}
-          style={{ filter: 'contrast(1.15) brightness(0.90)' }}
+          style={{ filter: 'contrast(1.08) brightness(1.04) saturate(1.06)' }}
         >
           <source src={`${import.meta.env.BASE_URL}videos/gym-hero.mp4`} type="video/mp4" />
           <source src={`${import.meta.env.BASE_URL}videos/standing-barbell-curl.mp4`} type="video/mp4" />
@@ -49,22 +49,27 @@ const Hero = () => {
         </video>
 
         {/* Cinematic Lighting Overlays matching navy/royal identity */}
-        {/* Responsive Gradient Scrim: Solid on mobile to guarantee text contrast, graded to right on desktop */}
-        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#07162c]/95 via-[#07162c]/85 md:via-[#07162c]/90 to-[#07162c]/60 md:to-transparent w-full md:w-[68%] z-10" />
+        {/* Responsive Gradient Scrim: Softened opacity so the hero workout video is clearly visible while text retains crisp contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#07162c]/88 via-[#07162c]/70 md:via-[#07162c]/65 to-[#07162c]/25 md:to-transparent w-full md:w-[58%] z-10" />
 
-        {/* Global Dark Vignette & Royal Blue Depth */}
-        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#040d1a]/50 to-[#07162c] z-10" />
+        {/* Gentle radial vignette letting the workout footage shine brightly */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,13,26,0.30)_80%,#07162c_100%)] z-10" />
 
         {/* Bottom Fade to blend seamlessly with Section 2 */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-gradient-to-t from-[#07162c] via-[#07162c]/80 to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-[#07162c] via-[#07162c]/60 to-transparent z-10" />
 
         {/* Top Fade for Navbar */}
-        <div className="absolute top-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-b from-[#040d1a]/90 to-transparent z-10" />
+        <div className="absolute top-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-b from-[#040d1a]/70 to-transparent z-10" />
 
-        {/* Muted Royal Accent Glow */}
-        <div className="absolute top-1/3 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#1D63D8]/15 rounded-full blur-[140px] pointer-events-none z-10" />
-        {/* Subtle Gold Accent Glow */}
-        <div className="absolute bottom-1/4 left-1/3 w-48 sm:w-64 h-48 sm:h-64 bg-[#F2C14E]/5 rounded-full blur-[120px] pointer-events-none z-10" />
+        {/* Premium Atmospheric Royal Blue & Gold Glow Elements */}
+        {/* Luminous royal blue ambient glow behind hero workout video */}
+        <div className="absolute top-1/4 right-[8%] w-[450px] sm:w-[600px] h-[450px] sm:h-[600px] bg-[radial-gradient(circle,rgba(29,99,216,0.22)_0%,rgba(37,99,235,0.06)_55%,transparent_75%)] rounded-full blur-[100px] pointer-events-none z-10 mix-blend-screen" />
+
+        {/* Subtle royal blue soft illumination behind headline */}
+        <div className="absolute top-1/3 left-[4%] w-[380px] sm:w-[500px] h-[380px] sm:h-[500px] bg-[radial-gradient(circle,rgba(29,99,216,0.16)_0%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-10" />
+
+        {/* Subtle gold accent warmth */}
+        <div className="absolute bottom-1/4 left-1/4 w-52 sm:w-68 h-52 sm:h-68 bg-[radial-gradient(circle,rgba(242,193,78,0.08)_0%,transparent_70%)] rounded-full blur-[90px] pointer-events-none z-10" />
       </div>
 
       {/* Atmospheric Floating Dust Particles Effect */}
