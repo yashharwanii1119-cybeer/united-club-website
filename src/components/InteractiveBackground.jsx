@@ -1717,34 +1717,34 @@ const InteractiveBackground = () => {
   }, [drawPaperScene]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#040d1a]">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#061426]">
       {/* 1. PAPER-STYLE ANIMATION CANVAS */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full block will-change-transform"
       />
 
-      {/* 2. ATMOSPHERIC SCRIM (Lightened and narrowed to left side so character animation stays brilliantly clear) */}
-      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#040d1a]/80 via-[#040d1a]/60 md:via-[#040d1a]/45 to-[#040d1a]/15 md:to-transparent w-full md:w-[48%] pointer-events-none" />
+      {/* 2. ATMOSPHERIC SCRIM (Subtly lightened and refined to leave the paper gym scene luminous and prominent) */}
+      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#061426]/75 via-[#061426]/50 md:via-[#061426]/35 to-[#061426]/10 md:to-transparent w-full md:w-[45%] pointer-events-none" />
 
-      {/* Softer top & bottom vignettes */}
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#040d1a]/80 to-transparent pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#040d1a]/80 to-transparent pointer-events-none" />
+      {/* Softened top & bottom vignettes */}
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#061426]/70 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#061426]/70 to-transparent pointer-events-none" />
 
-      {/* Targeted spotlight glow directly framing the character & leg press machine */}
+      {/* Targeted spotlight glow directly framing the character & leg press machine with enhanced luminous depth */}
       <div
-        className="absolute w-[700px] sm:w-[900px] h-[700px] sm:h-[900px] rounded-full blur-[120px] pointer-events-none transform-gpu mix-blend-screen"
+        className="absolute w-[750px] sm:w-[950px] h-[750px] sm:h-[950px] rounded-full blur-[130px] pointer-events-none transform-gpu mix-blend-screen"
         style={{
-          background: 'radial-gradient(circle, rgba(29,99,216,0.30) 0%, rgba(37,99,235,0.12) 45%, rgba(7,22,44,0) 75%)',
-          right: '6%',
-          top: '30%',
+          background: 'radial-gradient(circle, rgba(29,99,216,0.34) 0%, rgba(37,99,235,0.15) 45%, rgba(9,29,56,0) 75%)',
+          right: '5%',
+          top: '28%',
         }}
       />
       {/* Subtle warm rim glow accentuating the athlete's paper physique */}
       <div
-        className="absolute w-[450px] sm:w-[550px] h-[450px] sm:h-[550px] rounded-full blur-[90px] pointer-events-none transform-gpu"
+        className="absolute w-[480px] sm:w-[580px] h-[480px] sm:h-[580px] rounded-full blur-[95px] pointer-events-none transform-gpu"
         style={{
-          background: 'radial-gradient(circle, rgba(242,193,78,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(242,193,78,0.12) 0%, transparent 70%)',
           right: '18%',
           top: '38%',
         }}

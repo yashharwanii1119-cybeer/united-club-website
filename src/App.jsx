@@ -12,7 +12,7 @@ import InteractiveBackground from './components/InteractiveBackground';
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-[#040d1a] text-[#F4F7FC] selection:bg-[#F2C14E] selection:text-[#07162c] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#061426] text-[#F4F7FC] selection:bg-[#F2C14E] selection:text-[#07162c] overflow-x-hidden">
       {/* Active Theory-inspired global interactive animated background environment */}
       <InteractiveBackground />
 

@@ -3,7 +3,7 @@ import { ArrowUpRight, CheckCircle2, Shield, Sparkles } from 'lucide-react';
 
 const MembershipCTA = () => {
   return (
-    <section id="membership" className="relative py-20 sm:py-24 md:py-32 bg-[#051122]/55 border-t border-[#1D63D8]/20 overflow-hidden">
+    <section id="membership" className="relative py-20 sm:py-24 md:py-32 bg-[#07172b]/45 border-t border-[#1D63D8]/20 overflow-hidden">
       {/* Background Graphic Vignette */}
       <div className="absolute inset-0 z-0">
         <img
